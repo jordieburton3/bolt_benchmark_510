@@ -104,7 +104,7 @@ func insert(offset int) {
 
 	now := time.Now()
 	elapsed := time.Since(start)
-	f, err := os.OpenFile("test.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	f, err := os.OpenFile("raw0.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
     	log.Fatalf("error opening file: %v", err)
 	}
