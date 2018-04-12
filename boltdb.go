@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"flag"
-
+	"os"
 	"github.com/jordieburton3/bolt"
 	"time"
 )
@@ -40,7 +40,7 @@ func main() {
 	startInsert := time.Now()
 
 	// insert batches of 100,000 records
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 1000; i++ {
 		insert(i)
 	}
 	elapsedInsert := time.Since(startInsert)
@@ -104,7 +104,14 @@ func insert(offset int) {
 
 	now := time.Now()
 	elapsed := time.Since(start)
-	log.Printf("Inserted [%d] now: [%s] items took %s", totalCnt, now, elapsed)
+	f, err := os.OpenFile("test.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	if err != nil {
+    	log.Fatalf("error opening file: %v", err)
+	}
+	defer f.Close()
+
+	log.SetOutput(f)
+	log.Printf("Inserted [%d] now: [%s] items took %s\n", totalCnt, now, elapsed)
 
 
 }
