@@ -22,7 +22,9 @@ def getMedian():
     middleIndex = len(allTimes) / 2
     median = allTimes[middleIndex]
     print "Number of lines: ", numLines
-    print median
+    print "Number of elements in list: ", len(allTimes)
+    print "Middle index is: ", middleIndex
+    print "The median is: ", median
     return median
 
 if __name__ == "__main__":
