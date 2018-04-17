@@ -24,7 +24,7 @@ def getMedian():
     print "Number of lines: ", numLines
     print "Number of elements in list: ", len(allTimes)
     print "Middle index is: ", middleIndex
-    print "The median is: ", median
+    print "The median is: ", median, "ms"
     return median
 
 if __name__ == "__main__":
