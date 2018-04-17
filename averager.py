@@ -3,8 +3,8 @@
 def averageResults():
     total_time = 0
     numLines = 0.0
-    for i in range(0, 4):
-        f = open('raw' + i + '.txt', 'r')
+    for i in range(1, 2):
+        f = open('raw' + str(i) + '.txt', 'r')
         for line in f:
             time = line.split()[-1]
             if 'ms' in time:

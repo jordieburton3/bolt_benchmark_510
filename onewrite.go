@@ -5,7 +5,8 @@ import (
 	"log"
 	"flag"
 	"os"
-	"github.com/jordieburton3/bolt"
+	"../bolt"
+	//"github.com/jordieburton3/bolt"
 	"time"
 )
 
@@ -17,7 +18,7 @@ var (
 
 
 func init() {
-	flag.StringVar(&dbLocation, "db", "/tmp/bolt.db", "location of your boltdb file")
+	flag.StringVar(&dbLocation, "db", "/tmp/test.db", "location of your boltdb file")
 }
 
 func handleErr(err error) {
@@ -39,19 +40,18 @@ func main() {
 	log.Printf("Starting with dbpath [%s]", dbLocation)
 	startInsert := time.Now()
 
-	// insert batches of 100,000 records
-	for i := 0; i < 1000; i++ {
-		insert(i)
-	}
+	// insert 1 record
+	insert(0)
+	
 	elapsedInsert := time.Since(startInsert)
 
 
-	// startRead := time.Now()
-	// read()
-	// elapsedRead := time.Since(startRead)
+	startRead := time.Now()
+	read()
+	elapsedRead := time.Since(startRead)
 
 	log.Printf("TOTAL INSERT took %s for %d items", elapsedInsert, totalCnt)
-	// log.Printf("TOTAL READ took %s", elapsedRead)
+	log.Printf("TOTAL READ took %s", elapsedRead)
 }
 
 func read() {
@@ -63,16 +63,8 @@ func read() {
 	db.View(func(tx *bolt.Tx) error {
 
 		b := tx.Bucket([]byte(myBucket))
-
-		i := 0
-		b.ForEach(func(k, v []byte) error {
-			if i % 1000000 == 0 {
-				now := time.Now()
-				log.Printf("Read [%d] items %s, key %s", i, now, k)
-			}
-			i++
-			return nil
-		})
+		v := b.Get([]byte("0"))
+		fmt.Printf("The value is %d\n", v)
 		return nil
 	})
 }
@@ -83,28 +75,21 @@ func insert(offset int) {
 	handleErr(err)
 	defer db.Close()
 
-	value := []byte(`{"exp":"2016-01-01"}`)
-
 	// store some data
 	err = db.Update(func(tx *bolt.Tx) error {
 		bucket, err := tx.CreateBucketIfNotExists(myBucket)
 		handleErr(err)
 
-		for i := 0; i < 100000; i++ {
-			key := getKey(totalCnt)
-			err = bucket.Put([]byte(key), value)
-			handleErr(err)
-			totalCnt++
-		}
-
-
+		err = bucket.Put([]byte("0"), []byte("8"))
+		handleErr(err)
 		return nil
 	})
 	handleErr(err)
 
 	now := time.Now()
 	elapsed := time.Since(start)
-	f, err := os.OpenFile("raw9.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+
+	f, err := os.OpenFile("testwrite.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
     	log.Fatalf("error opening file: %v", err)
 	}
