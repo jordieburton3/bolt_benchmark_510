@@ -5,7 +5,8 @@ import (
 	"log"
 	"flag"
 	"os"
-	"github.com/jordieburton3/bolt"
+	//"github.com/jordieburton3/bolt"
+	"../bolt"
 	"time"
 )
 
@@ -104,7 +105,7 @@ func insert(offset int) {
 
 	now := time.Now()
 	elapsed := time.Since(start)
-	f, err := os.OpenFile("raw9.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	f, err := os.OpenFile("new5.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
     	log.Fatalf("error opening file: %v", err)
 	}

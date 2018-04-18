@@ -42,7 +42,7 @@ func main() {
 
 	// insert 1 record
 	insert(0)
-	
+
 	elapsedInsert := time.Since(startInsert)
 
 
@@ -80,7 +80,7 @@ func insert(offset int) {
 		bucket, err := tx.CreateBucketIfNotExists(myBucket)
 		handleErr(err)
 
-		err = bucket.Put([]byte("0"), []byte("8"))
+		err = bucket.Put([]byte("0"), []byte("9"))
 		handleErr(err)
 		return nil
 	})
